@@ -1,112 +1,126 @@
-// const readline = require('readline');
-// const readlineInterface = readline.createInterface(process.stdin, process.stdout);
+//constants that allow the program to run on the terminal
+const readline = require("readline");
+const r1 = readline.createInterface(process.stdin, process.stdout);
 
-// function ask(questionText) {
-//   return new Promise((resolve, reject) => {
-//     readlineInterface.question(questionText, resolve);
-//   });
-// }
-
-// start();
-
-// async function start() {
-//   const welcomeMessage = `182 Main St.
-// You are standing on Main Street between Church and South Winooski.
-// There is a door here. A keypad sits on the handle.
-// On the door is a handwritten sign.`;
-//   let answer = await ask(welcomeMessage);
-//   console.log('Now write your code to make this work!');
-//   process.exit();
-// }
-
+// Function Setting Up `ask()`
+function ask(questionText) {
+  return new Promise((resolve, reject) => {
+    r1.question(questionText, resolve);
+  });
+}
 //state machine; current room state to new room state
-let rooms = {
-  mainStreet: {
-   canChangeTo: ["cityhall"],
-  },
-  cityhall: {
-    canChangeTo: ["antechamber"],
-  },
-  antechamber: {
-    canChangeTo: ["hallway"],
-  },
-  hallway: {
-    canChangeTo: ["office", "kitchen", "fireescape"],
-  },
-  office: {
-    canChangeTo: ["hallway"],
-  },
-  kitchen: {
-    canChangeTo: ["hallway"],
-  },
-  fireescape: {
-    canChangeTo: ["hallway"],
-  },
-};
 
-let currentRoom = "mainStreet";
+
+//intial starting room
+
+
 //Class Constructor for items
 class Items {
-  constructor(name, description, takeable) {
-    this.name = name,
-    this.description = description,
-    this.takeable = true;
-    (this.name = name),
-      (this.description = description),
-      (this.takeable = true);
+  constructor (name, description, takeable) {
+    this.name = name
+      this.description = description
+      this.takeable = takeable
   }
 }
 //Items constructor
+const stick = new Items(
+  "stick",
+  "Large wooden walking stick in case the path before gets rough",
+  true
+);
+const scotch = new Items(
+  "scotch",
+  "An untouched, vintage 75 year old, highland, Single Malt Bottle of Scotch with some dust gathering on it.",
+  true
+);
+const newsPaper = new Items(
+  "news paper",
+  "A Newspaper, October 31st, 1946.",
+  false
+);
+const rainJacket = new Items(
+  "rain jacket",
+  "A slightly, damp, rain jacket from the cold wet outside weather.",
+  true
+);
 const ticketStub = new Items(
+  "ticket stub",
+  "You receive a ticket stub for your rain jacket, also on the back it reads:'Good for 1 Free Bottle of Scotch'",
+  true
 );
 //Item lookup table
 let itemLookUp = {
-  "stick": stick,
-  "newsPaper": newsPaper,
-  "rainJacket": rainJacket,
-  "ticketStub": ticketStub,
   stick: stick,
+  scotch: scotch,
   newsPaper: newsPaper,
   rainJacket: rainJacket,
   ticketStub: ticketStub,
 };
-
 //Class constructors of the rooms
 class Room {
-  constructor(
-    name,
-    description,
-    inv,
-    locked
-  ) {
-  constructor("name, description, inv, locked"); {
+  constructor(name, description, inv, locked, canChangeTo) {
     this.name = name;
     this.description = description;
     this.inv = inv;
-  const hallway = new Room()
-const office = new Room()
-  }
+    this.locked = locked;
+    this.canChangeTo = canChangeTo;
 
+  }
+}
+//Room Constructors
+const mainStreet = new Room(
+  "main street",
+  "It's a dark damp night and you are on the road out in front of 182 Main St.\n and you swear you heard a soft whisper.\nYou think maybe that was just in your head. \nYou need to decide, Do you really want to continue.? If yes than make your way over to City Hall across the street.",
+  ["ticketStub"],
+  false,
+  ["cityhall"],
+
+
+);
+const cityhall = new Room(
+  "city hall",
+  "You walk up to City Hall. In front of you is a very large wooden door with a brass head of a lion as a knocker. Behind you is the steps you just came up that funnel you to this massive door. You knock, the door swings open as if it was unlocked waiting for you. You step inside into what you can describe as the antechamber",
+  ["rainJacket"],
+  false,
+  ["antechamber"],
+);
+const antechamber = new Room(
+  "antechamber",
+  "You have entered the Antechamber. Right to the right of you is an umbrella stand with a big stick in the case.\n There is a massive chandelier in the center of the ceiling. It seems to be ever so slightly blowing in the breeze.\n Meanwhile, you heard the door lock behind you. You say to your self maybe I should take the stick,\nDo you take the stick or not and leave your umbrella behind.\n You proceed down the only path available to you, a short hallway",
+  ["stick"],
+  false,
+  ["hallway"],
+);
+const hallway = new Room(
+  "hallway",
+  "You have entered the Entrance Hall, which is short and has a coat room on your left. You decide to leave your rain jacket behind and gather the ticket stub for your jacket from this elderly, blue haired women.\nAt the end of the hallway you have three choices where to go.\n To the left is a nice sunny lit hallway with people working in their offices.\n to the right is a dark dreary hallway with cobwebs covering the entrance.\n Straight ahead is a huge marble staircase.\n What way will you choose?. ",
+  ["ticketStub"],
+  false,
+  ["office", "kitchen", "fireescape"],
+);
+const office = new Room(
   "office",
   "At the top of the stairs there is another long hallway with many doors, but there is a door on the left that catches your eye, inside you find the door has lead you into an office with a large desk in one corner with two chairs in front. On the desk is an old newspaper.\nIn the opposite corner you see a cart that used to house a mini bar but almost everything has been tipped over and broken.\n An untouched bottle of Scotch is the only thing remaining.",
-  ['newsPaper', 'scotch'],
-  false
-const kitchen = new Room();
-const fireescape = new Room();
+  ["newsPaper", "scotch"],
+  false,
+  ["hallway"],
+);
+const kitchen = new Room(
+  "kitchen",
+  "Back out in the hallway at the top of the stairs is a door to the right that looks like a kitchen, inside is a dinning table and chairs with a mini bar in the corner that has only a bottle of Scotch remaining. On one wall of the kitchen is a open window with a crow sitting on the ledge. All of a sudden the crow squawks and says 'leave now or regret it'. So you need to leave that room in a hurry, but not before picking up the bottle of Scotch.",
+  ["scotch"],
+  false,
+  ["hallway"],
+);
+const fireescape = new Room(
   "fire escape",
-  "As your running down the hallway you check the door and find it is locked.",
   "You made out of City Hall Well DONE!",
-  [],
-  true
+  ["stick"],
+  true,
+  ["hallway"],
+);
 //Room Lookup table
 let roomLookUp = {
-  "mainStreet": mainStreet,
-  "cityhall": cityhall,
-  "hallway": hallway,
-  "antechamber": antechamber,
-  "office": office,
-  "kitchen": kitchen,
-  "fireescape": fireescape,
   mainStreet: mainStreet,
   cityhall: cityhall,
   hallway: hallway,
@@ -117,10 +131,6 @@ let roomLookUp = {
 };
 //Lookup table for actions
 let actions = {
-  move: ["move","enter",],
-  take: ["take","grab","pickup"],
-  drop: ["drop","leave",],
-  inspect: ["inspect","examine"],
   move: ["move", "enter"],
   take: ["take", "grab", "pickup"],
   drop: ["drop", "leave"],
@@ -130,14 +140,13 @@ let actions = {
 const player = {
   inventory: [],
   location: null,
-}
 };
+let currentRoom = "mainStreet";
 //Function Block
-//Tracks if the current room can change to new room
 //Change room function
-function = changeRoom(newRoom) 
-  // If the new room is a available movement and it is locked}
-};
+function changeRoom(newRoom) {
+  let validTransitions = roomLookUp[currentRoom].canChangeTo;
+  // If the new room is a available movement and it is locked
   if (
     validTransitions.includes(newRoom) &&
     roomLookUp[newRoom].locked === true
@@ -153,7 +162,9 @@ function = changeRoom(newRoom)
 
       //if player doesn't have a stick, door remains locked
     } else {
-      console.log("The door before you is locked. Maybe you should find a stick.");
+      console.log(
+        "The door before you is locked. Maybe you should find a stick."
+      );
     }
   }
   //if the room exists and the door is not locked
@@ -162,66 +173,16 @@ function = changeRoom(newRoom)
     roomLookUp[newRoom].locked === false
   ) {
     currentRoom = newRoom;
-    console.log(roomLookUp[currentRoom].description);
-  } else {
-    console.log("doors locked");
     let roomForTable = roomLookUp[currentRoom];
     //console log the room descriptions
     console.log(roomForTable.description);
   }
   //if the room change is invalid
-    console.log("That doesn't seem to be a place I know about. Try again");
+  else {
+    console.log(
+      "That doesn't seem to be a place I know about. Care to try again?"
+    );
+  }
   //change player location
   player.location = roomLookUp[currentRoom];
-
-function sanitizedWord(dirtyInput) {
 }
-//pickup function
-function pickUp(takeIt) {
-  let takeableItem = itemLookUp[takeIt];
-  console.log(player)
-
-  if (takeableItem) {
-    console.log(player)
-    console.log("That does not exist in this room")
-  } else if (takeableItem.takeable === true && player.location.inv.includes(takeIt)) {
-    console.log(player)
-    player.location.inv.splice(player.location.inv.indexOf(takeIt), 1)
-    player.inventory.push(takeIt)
-    console.log("You picked up the " + takeIt)
-    console.log("That does not exist in this room");
-  } else if (
-    takeableItem.takeable === true &&
-    player.location.inv.includes(takeIt)
-  ) {
-    player.location.inv.splice(player.location.inv.indexOf(takeIt), 1);
-    player.inventory.push(takeIt);
-    console.log("You picked up the " + takeIt);
-  } else {
-    console.log("You can't take that!");
-  }
-}
-//drop items function
-function dropIt(trash) {
-  if (player.inventory.includes(trash)) {
-    player.inventory.splice(player.inventory.indexOf(trash), 1)
-    player.location.inv.push(trash)
-    console.log("You have dropped the " + trash)
-    player.inventory.splice(player.inventory.indexOf(trash), 1);
-    player.location.inv.push(trash);
-    console.log("You have dropped the " + trash);
-  } else {
-    console.log("You don't have this item");
-  }
-}
-// examine items function
-function lookAt(checkMe) {
-  let lookAtItems = itemLookUp[checkMe];
-  if (player.location.inv.includes(checkMe)) {
-    console.log(lookAtItems.description)
-    console.log(lookAtItems.description);
-  } else {
-    console.log("Nothing to look at");
-  }
-  process.exit();
-};
