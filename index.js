@@ -22,7 +22,8 @@ class Items {
       this.takeable = takeable
   }
 }
-//Items constructor
+
+//using items class to create items
 const stick = new Items(
   "stick",
   "Large wooden walking stick in case the path before gets rough",
@@ -70,7 +71,7 @@ class Room {
 //Room Constructors
 const mainStreet = new Room(
   "main street",
-  "It's a dark damp night and you are on the road out in front of 182 Main St.\n and you swear you heard a soft whisper.\nYou think maybe that was just in your head. \nYou need to decide, Do you really want to continue.? If yes than make your way over to City Hall across the street.",
+  "It's a dark damp night and you are on the road out in front of 182 Main St.\n and you swear you heard a soft whisper.\nYou think maybe that was just in your head. \nYou need to decide, Do you really want to continue.? If yes than make your way over to cityhall across the street.",
   ["ticketStub"],
   false,
   ["cityhall"],
@@ -79,7 +80,7 @@ const mainStreet = new Room(
 );
 const cityhall = new Room(
   "city hall",
-  "You walk up to City Hall. In front of you is a very large wooden door with a brass head of a lion as a knocker. Behind you is the steps you just came up that funnel you to this massive door. You knock, the door swings open as if it was unlocked waiting for you. You step inside into what you can describe as the antechamber",
+  "You walk up to cityhall. In front of you is a very large wooden door with a brass head of a lion as a knocker. Behind you is the steps you just came up that funnel you to this massive door. You knock, the door swings open as if it was unlocked waiting for you. You step inside into what you can describe as the antechamber",
   ["rainJacket"],
   false,
   ["antechamber"],
@@ -129,6 +130,8 @@ let roomLookUp = {
   kitchen: kitchen,
   fireescape: fireescape,
 };
+let playerInput
+
 //Lookup table for actions
 let actions = {
   move: ["move", "enter"],
@@ -142,47 +145,45 @@ const player = {
   location: null,
 };
 let currentRoom = "mainStreet";
-//Function Block
-//Change room function
-function changeRoom(newRoom) {
-  let validTransitions = roomLookUp[currentRoom].canChangeTo;
-  // If the new room is a available movement and it is locked
-  if (
-    validTransitions.includes(newRoom) &&
-    roomLookUp[newRoom].locked === true
-  ) {
-    // if it is locked, and they have a stick they can leave City Hall
-    if (player.inventory.includes("stick")) {
-      fireescape.locked = false;
-      currentRoom = newRoom;
-      let roomForTable = roomLookUp[currentRoom];
-      //description for the rooms
+console.log(roomLookUp[currentRoom].description)
 
-      console.log(roomForTable.description);
 
-      //if player doesn't have a stick, door remains locked
-    } else {
-      console.log(
-        "The door before you is locked. Maybe you should find a stick."
-      );
+async function start() {
+ 
+  while (playerInput !=="exit") {
+  playerInput = await ask(">_")
+  if (roomLookUp[currentRoom].canChangeTo.includes(playerInput)) {
+    currentRoom = playerInput
+    console.log(roomLookUp[currentRoom].description)
+
+  } else {
+    console.log("sorry you can't go there!")
+  }
+
+  //Item pickup function (merging items to the rooms)
+  let currentItem = "stick"
+  console.log(itemLookUp[currentItem].description)
+
+  if (itemLookUp[currentItem].takeable.includes(playerInput)) {
+    currentItem = playerInput
+    console.log(itemLookUp[currentItem].description)
+  } else {
+   console.log()
     }
   }
-  //if the room exists and the door is not locked
-  else if (
-    validTransitions.includes(newRoom) &&
-    roomLookUp[newRoom].locked === false
-  ) {
-    currentRoom = newRoom;
-    let roomForTable = roomLookUp[currentRoom];
-    //console log the room descriptions
-    console.log(roomForTable.description);
   }
-  //if the room change is invalid
-  else {
-    console.log(
-      "That doesn't seem to be a place I know about. Care to try again?"
-    );
-  }
-  //change player location
-  player.location = roomLookUp[currentRoom];
-}
+    if (player.inventory.includes("stick")) {
+     fireescape.locked = false;
+     currentRoom = newRoom;
+
+   let roomForTable = roomLookUp[currentRoom];
+    //description for the rooms
+  
+     console.log(roomForTable.description);
+
+     } else {
+        console.log("The door before you is locked. Maybe you should find a stick.");
+     }
+     
+start ()
+// here i am trying to merge items but don't look like i am on right path, getting errors.
