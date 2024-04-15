@@ -147,43 +147,58 @@ const player = {
 let currentRoom = "mainStreet";
 console.log(roomLookUp[currentRoom].description)
 
+let currentItem = "stick"
+  console.log(itemLookUp[currentItem].description)
+
 
 async function start() {
  
   while (playerInput !=="exit") {
   playerInput = await ask(">_")
-  if (roomLookUp[currentRoom].canChangeTo.includes(playerInput)) {
-    currentRoom = playerInput
+  let splitInput = playerInput.split(" ")
+  let action = splitInput[0]
+  let target = splitInput[1]
+  let itemLookUp = splitInput[0]
+  let Items = splitInput[0]
+
+
+  //check the value of the action if the value is move then you want  to do your moving logic if the value take or samothing else then you want to do your item logic.
+  if (roomLookUp[currentRoom].canChangeTo.includes(target)) {
+    currentRoom = target
     console.log(roomLookUp[currentRoom].description)
 
   } else {
     console.log("sorry you can't go there!")
   }
 
-  //Item pickup function (merging items to the rooms)
-  let currentItem = "stick"
-  console.log(itemLookUp[currentItem].description)
 
   if (itemLookUp[currentItem].takeable.includes(playerInput)) {
     currentItem = playerInput
     console.log(itemLookUp[currentItem].description)
   } else {
-   console.log()
+   console.log("you picked the stick")
     }
   }
   }
-    if (player.inventory.includes("stick")) {
-     fireescape.locked = false;
-     currentRoom = newRoom;
+  //     if (player.inventory.includes("stick")) {
+  //    fireescape.locked = false;
+  //    currentRoom = newRoom;
 
-   let roomForTable = roomLookUp[currentRoom];
-    //description for the rooms
+
+  //  let roomForTable = roomLookUp[currentRoom];
+  //   //description for the rooms
   
-     console.log(roomForTable.description);
+  //    console.log(roomForTable.description);
 
-     } else {
-        console.log("The door before you is locked. Maybe you should find a stick.");
-     }
+  //    }  else if (actions.take.includes(playerInput)) {
+  //     pickup(activity)
+  //    } else if (actions.drop.includes(playerInput)) {
+  //     dropIt(activity)
+  //    } else if ( actions.inspect.includes(playerInput)) {
+  //     lookAt(activity)
+  //     console.log(player.inventory);
+  //    } else {
+  //     console.log("The door before you is locked. Maybe you should find a stick.");
+  //  } 
      
 start ()
-// here i am trying to merge items but don't look like i am on right path, getting errors.
