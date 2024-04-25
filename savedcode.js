@@ -48,3 +48,48 @@ function changeRoom(newRoom) {
   console.log(itemLookUp)
   
   console.log(hallway)
+
+
+  let splitInput = ['move', 'cityhall']
+  let action = "move"
+  let target = "cityhall"
+  let itemLookUp = "cityhall"
+  let item = "move"
+
+
+   //check the value of the action if the value is move then you want to do your moving logic if the value take or something else then you want to do your item logic.
+  //   if (roomLookUp[currentRoom].canChangeTo.includes(target)) {
+  //     currentRoom = target;
+  //     console.log(roomLookUp[currentRoom].description);
+  //   } else {
+  //     console.log("sorry you can't go there!");
+      
+
+  //   let currentItem = "stick";
+  //   console.log(itemLookUp[currentItem].description);
+
+  //   if (itemLookUp[currentItem].takeable.includes(playerInput)) {
+  //     currentItem = playerInput;
+  //     console.log(itemLookUp[currentItem].description);
+  //   } else {
+  //     console.log("you picked the stick");
+  //   }
+  // } 
+//     if (player.inventory.includes("stick")) {
+//    fireescape.locked = false;
+//    currentRoom = newRoom;
+
+//  let roomForTable = roomLookUp[currentRoom];
+
+//    console.log(roomForTable.description);
+
+//    }  else if (actions.take.includes(playerInput)) {
+//     pickup(activity)
+//    } else if (actions.drop.includes(playerInput)) {
+//     dropIt(activity)
+//    } else if ( actions.inspect.includes(playerInput)) {
+//     lookAt(activity)
+//     console.log(player.inventory);
+//    } else {
+//     console.log("The door before you is locked. Maybe you should find a stick.");
+//  }

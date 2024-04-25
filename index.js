@@ -10,16 +10,14 @@ function ask(questionText) {
 }
 //state machine; current room state to new room state
 
-
 //intial starting room
-
 
 //Class Constructor for items
 class Items {
-  constructor (name, description, takeable) {
-    this.name = name
-      this.description = description
-      this.takeable = takeable
+  constructor(name, description, takeable) {
+    this.name = name;
+    this.description = description;
+    this.takeable = takeable;
   }
 }
 
@@ -65,60 +63,57 @@ class Room {
     this.inv = inv;
     this.locked = locked;
     this.canChangeTo = canChangeTo;
-
   }
 }
 //Room Constructors
 const mainStreet = new Room(
   "main street",
-  "It's a dark damp night and you are on the road out in front of 182 Main St.\n and you swear you heard a soft whisper.\nYou think maybe that was just in your head. \nYou need to decide, Do you really want to continue.? If yes than make your way over to cityhall across the street.",
+  "Welcome to the game. You are in front of 182 Main St. make your way over to cityhall across the street. Type ( move cityhall ) to enter cityhall for more advanture",
   ["ticketStub"],
   false,
-  ["cityhall"],
-
-
+  ["cityhall"]
 );
 const cityhall = new Room(
   "city hall",
-  "You walk up to cityhall. In front of you is a very large wooden door with a brass head of a lion as a knocker. Behind you is the steps you just came up that funnel you to this massive door. You knock, the door swings open as if it was unlocked waiting for you. You step inside into what you can describe as the antechamber",
+  "You walk up to cityhall. In front of you is a very large wooden door. You knock, the door swings open as if it was unlocked waiting for you. You step inside the cityhall, now you standing in front of antechamber,for stepping to antechamber, type ( move antechamber )",
   ["rainJacket"],
   false,
-  ["antechamber"],
+  ["antechamber"]
 );
 const antechamber = new Room(
   "antechamber",
-  "You have entered the Antechamber. Right to the right of you is an umbrella stand with a big stick in the case.\n There is a massive chandelier in the center of the ceiling. It seems to be ever so slightly blowing in the breeze.\n Meanwhile, you heard the door lock behind you. You say to your self maybe I should take the stick,\nDo you take the stick or not and leave your umbrella behind.\n You proceed down the only path available to you, a short hallway",
+  "You have entered the Antechamber. Right of you is an umbrella stand with a big stick in the case. Meanwhile, you heard the door lock behind you. You say to your self maybe I should take the stick, Do you take the stick or not and leave your umbrella behind. You proceed down the only path available to you, a short hallway, if you want to pick stick type (take stick) or make your way to hallway type (move hallway)",
   ["stick"],
   false,
-  ["hallway"],
+  ["hallway"]
 );
 const hallway = new Room(
   "hallway",
-  "You have entered the Entrance Hall, which is short and has a coat room on your left. You decide to leave your rain jacket behind and gather the ticket stub for your jacket from this elderly, blue haired women.\nAt the end of the hallway you have three choices where to go.\n To the left is a nice sunny lit hallway with people working in their offices.\n to the right is a dark dreary hallway with cobwebs covering the entrance.\n Straight ahead is a huge marble staircase.\n What way will you choose?. ",
+  "You have entered the Hallway, which is short and has a coat room on your left. You decide to leave your rain jacket behind and gather the ticket stub for your jacket from this elderly, blue haired women. To leave your rainjacket to get ticketstub type - (take ticketStub) At the end of the hallway you have three choices where to go. To the left is a office. To the right entering a big kitchen. Straight ahead is a huge marble staircase ending with fireescape What way will you choose?. For moving to any of them type (move office, kitchen, fireescape) ",
   ["ticketStub"],
   false,
-  ["office", "kitchen", "fireescape"],
+  ["office", "kitchen", "fireescape"]
 );
 const office = new Room(
   "office",
-  "At the top of the stairs there is another long hallway with many doors, but there is a door on the left that catches your eye, inside you find the door has lead you into an office with a large desk in one corner with two chairs in front. On the desk is an old newspaper.\nIn the opposite corner you see a cart that used to house a mini bar but almost everything has been tipped over and broken.\n An untouched bottle of Scotch is the only thing remaining.",
+  "You are in office at the top of the stairs there is another long hallway with many doors, but there is a door on the left that catches your eye, inside you find the door has lead you into an office with a large desk in one corner with two chairs in front. On the desk is an old newspaper. In the opposite corner you see a cart that used to house a mini bar but almost everything has been tipped over and broken. An untouched bottle of Scotch is the only thing remaining. Choosing any of them Command (take newsPaper, scotch) and (move hallway) ",
   ["newsPaper", "scotch"],
   false,
-  ["hallway"],
+  ["hallway"]
 );
 const kitchen = new Room(
   "kitchen",
-  "Back out in the hallway at the top of the stairs is a door to the right that looks like a kitchen, inside is a dinning table and chairs with a mini bar in the corner that has only a bottle of Scotch remaining. On one wall of the kitchen is a open window with a crow sitting on the ledge. All of a sudden the crow squawks and says 'leave now or regret it'. So you need to leave that room in a hurry, but not before picking up the bottle of Scotch.",
+  "Back out in the hallway at the top of the stairs is a door to the right that looks like a kitchen, inside is a dinning table and chairs with a mini bar in the corner that has only a bottle of Scotch remaining. On one wall of the kitchen is a open window with a crow sitting on the ledge. All of a sudden the crow squawks and says 'leave now or regret it'. So you need to leave that room in a hurry, but not before picking up the bottle of Scotch. picking Scotch command - (take scotch) make your way to hallway, command - (move hallway)",
   ["scotch"],
   false,
-  ["hallway"],
+  ["hallway"]
 );
 const fireescape = new Room(
   "fire escape",
-  "You made out of City Hall Well DONE!",
+  "You made out of City Hall Well DONE! You have 2 more options, to go back to hallway, type - (move hallway)to pick the stick, type - (take stick)",
   ["stick"],
   true,
-  ["hallway"],
+  ["hallway"]
 );
 //Room Lookup table
 let roomLookUp = {
@@ -130,7 +125,7 @@ let roomLookUp = {
   kitchen: kitchen,
   fireescape: fireescape,
 };
-let playerInput
+let playerInput;
 
 //Lookup table for actions
 let actions = {
@@ -139,66 +134,44 @@ let actions = {
   drop: ["drop", "leave"],
   inspect: ["inspect", "examine"],
 };
+
+console.log(actions.move);
 //player variables
 const player = {
   inventory: [],
   location: null,
 };
 let currentRoom = "mainStreet";
-console.log(roomLookUp[currentRoom].description)
-
-let currentItem = "stick"
-  console.log(itemLookUp[currentItem].description)
-
+console.log(roomLookUp[currentRoom].description);
 
 async function start() {
- 
-  while (playerInput !=="exit") {
-  playerInput = await ask(">_")
-  let splitInput = playerInput.split(" ")
-  let action = splitInput[0]
-  let target = splitInput[1]
-  let itemLookUp = splitInput[0]
-  let Items = splitInput[0]
+  while (playerInput !== "exit") {
+    playerInput = await ask(">_");
+    let splitInput = playerInput.split(" ");
+    let action = splitInput[0];
+    let target = splitInput[1];
 
+    if (actions.move.includes(action)) {
+      if (roomLookUp[currentRoom].canChangeTo.includes(target)) {
+        currentRoom = target;
+        console.log(roomLookUp[currentRoom].description);
+      } else {
+        console.log("sorry you can't go there!");
+      }
+    } else if (actions.take.includes(action)) {
+      if (roomLookUp[currentRoom].inv.includes(target)) {
+        player.inventory.push(target);
+        console.log(itemLookUp[target].description);
+      } else {
+        console.log("sorry that item is not in this room")
+      }
 
-  //check the value of the action if the value is move then you want  to do your moving logic if the value take or samothing else then you want to do your item logic.
-  if (roomLookUp[currentRoom].canChangeTo.includes(target)) {
-    currentRoom = target
-    console.log(roomLookUp[currentRoom].description)
-
-  } else {
-    console.log("sorry you can't go there!")
-  }
-
-
-  if (itemLookUp[currentItem].takeable.includes(playerInput)) {
-    currentItem = playerInput
-    console.log(itemLookUp[currentItem].description)
-  } else {
-   console.log("you picked the stick")
+      // Here i am trying to show up rooms and actions for player but its not getting what i want 
+    } else if (actions.roomLookUp.includes(actions)) {
+      if (roomLookUp[inv].includes(target))
+      player.inventory.push(actions)
     }
   }
-  }
-  //     if (player.inventory.includes("stick")) {
-  //    fireescape.locked = false;
-  //    currentRoom = newRoom;
+}
 
-
-  //  let roomForTable = roomLookUp[currentRoom];
-  //   //description for the rooms
-  
-  //    console.log(roomForTable.description);
-
-  //    }  else if (actions.take.includes(playerInput)) {
-  //     pickup(activity)
-  //    } else if (actions.drop.includes(playerInput)) {
-  //     dropIt(activity)
-  //    } else if ( actions.inspect.includes(playerInput)) {
-  //     lookAt(activity)
-  //     console.log(player.inventory);
-  //    } else {
-  //     console.log("The door before you is locked. Maybe you should find a stick.");
-  //  } 
-     
-start ()
+start();
